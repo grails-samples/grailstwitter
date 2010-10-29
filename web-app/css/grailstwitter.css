@@ -1,0 +1,12 @@
+.pageBody {
+    padding: 50px 50px 50px 250px;
+}
+
+.statusMessage {
+    padding: 10px;
+    width: 300px;
+}
+
+.statusMessageTime {
+    color: grey;
+}
