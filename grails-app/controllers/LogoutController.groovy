@@ -1,5 +1,8 @@
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
+import grails.plugins.springsecurity.Secured
+
+@Secured('IS_AUTHENTICATED_ANONYMOUSLY')
 class LogoutController {
 
 	/**

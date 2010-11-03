@@ -84,8 +84,8 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
-    
-    debug 'grails.app.controller.org.grails.twitter', 
+
+    debug 'grails.app.controller.org.grails.twitter',
           'grails.app.service.org.grails.twitter'
 }
 
@@ -94,16 +94,8 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.grails.twitt
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.grails.twitter.auth.PersonAuthority'
 grails.plugins.springsecurity.authority.className = 'org.grails.twitter.auth.Authority'
 
-
-grails.plugins.springsecurity.securityConfigType = grails.plugins.springsecurity.SecurityConfigType.InterceptUrlMap
-grails.plugins.springsecurity.interceptUrlMap = [
-   '/status/**':           ['IS_AUTHENTICATED_FULLY'],
-   '/login/**':            ['IS_AUTHENTICATED_ANONYMOUSLY'],
-   '/logout/**':           ['IS_AUTHENTICATED_ANONYMOUSLY']
-]
 grails.gemfire.regions = {
     twitterCache {
         entryTimeToLive = expirationAttributes(120, DESTROY)
     }
 }
-    
