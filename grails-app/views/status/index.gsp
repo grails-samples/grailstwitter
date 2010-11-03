@@ -11,7 +11,7 @@
             <g:textField name="q" value=""/>
         </g:form>
     </div>
-    
+
     <h1>What Are You Doing?</h1>
     <div class="updatStatusForm">
         <g:formRemote url="[action: 'updateStatus']" update="messages" name="updateStatusForm"
