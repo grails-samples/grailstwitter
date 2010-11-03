@@ -1,24 +1,39 @@
 package org.grails.twitter
 
+import grails.plugins.springsecurity.Secured
+
 import org.grails.twitter.auth.Person
 
+@Secured('IS_AUTHENTICATED_FULLY')
 class StatusController {
 
-    def twitterCache
     def springSecurityService
-    
-    def index = { 
+    def statusService
+    def twitterCache
+
+    def index = {
         def messages = currentUserTimeline()
         [statusMessages: messages]
     }
-    
+
+    def updateStatus = {
+        statusService.updateStatus params.message
+        def messages = currentUserTimeline()
+        render template: 'statusMessages', collection: messages, var: 'statusMessage'
+    }
+
+    def follow = {
+        statusService.follow params.long('id')
+        redirect action: 'index'
+    }
+
     private lookupPerson() {
         Person.get(springSecurityService.principal.id)
     }
 
     private currentUserTimeline() {
         def messages = twitterCache[springSecurityService.principal.username]
-        if(!messages) {
+        if (!messages) {
             log.debug "No messages found in cache for user <${springSecurityService.principal.username}>. Querying database..."
             def per = lookupPerson()
             messages = Status.withCriteria {
@@ -26,7 +41,7 @@ class StatusController {
                     author {
                         eq 'username', per.username
                     }
-                    if(per.followed) {
+                    if (per.followed) {
                         inList 'author', per.followed
                     }
                 }
@@ -34,29 +49,10 @@ class StatusController {
                 order 'dateCreated', 'desc'
             }
             twitterCache[springSecurityService.principal.username] = messages
-        } else {
+        }
+        else {
             log.debug "Status messages loaded from cache for user <${springSecurityService.principal.username}>."
         }
         messages
-    }
-    
-    def updateStatus = {
-        def status = new Status(message: params.message)
-        status.author = lookupPerson()
-        status.save()
-        twitterCache.remove springSecurityService.principal.username
-        def messages = currentUserTimeline()
-        render template: 'statusMessages', collection: messages, var: 'statusMessage'
-    }
-    
-    def follow = {
-        def per = Person.get(params.id)
-        if(per) {
-            def currentUser = lookupPerson()
-            currentUser.addToFollowed(per)
-            currentUser.save()
-            twitterCache.remove springSecurityService.principal.username
-        }
-        redirect action: 'index'
     }
 }
