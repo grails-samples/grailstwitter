@@ -85,8 +85,8 @@ log4j = {
 
     warn   'org.mortbay.log'
 
-    debug 'grails.app.controller.org.grails.twitter',
-          'grails.app.service.org.grails.twitter'
+    debug 'grails.app.controllers.org.grails.twitter',
+          'grails.app.services.org.grails.twitter'
 }
 
 // Added by the Spring Security Core plugin:
