@@ -11,19 +11,19 @@ class StatusController {
     def statusService
     def twitterCache
 
-    def index = {
+    def index() {
         def messages = currentUserTimeline()
         [statusMessages: messages]
     }
 
-    def updateStatus = {
-        statusService.updateStatus params.message
+    def updateStatus(String message) {
+        statusService.updateStatus message
         def messages = currentUserTimeline()
         render template: 'statusMessages', collection: messages, var: 'statusMessage'
     }
 
-    def follow = {
-        statusService.follow params.long('id')
+    def follow(long id) {
+        statusService.follow id
         redirect action: 'index'
     }
 
