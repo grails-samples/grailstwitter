@@ -13,6 +13,8 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
+        
+        mavenRepo 'http://dist.gemstone.com/maven/release'
 
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
