@@ -33,7 +33,7 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
         
         compile ':activemq:0.1'
-        compile ':gemfire:1.0.0.M4'
+        compile ':gemfire:1.0.0.M5'
         compile ":hibernate:$grailsVersion"
         compile ':jms:1.0'
         compile ':jquery:1.6.1.1'
