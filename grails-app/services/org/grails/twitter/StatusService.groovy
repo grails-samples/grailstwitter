@@ -9,17 +9,12 @@ class StatusService {
     def springSecurityService
     def twitterCache
 
-    void onMessage(username) {
-        log.debug "Message received. New status message posted by user <${username}>."
-        def following = Person.withCriteria {
-            projections {
-                property 'username'
-            }
-            followed {
-                eq 'username', username
-            }
-        }
-
+    void onMessage(newMessageUserName) {
+        log.debug "Message received. New status message posted by user <${newMessageUserName}>."
+        def following = Person.where {
+            followed.username == newMessageUserName
+        }.property('username').list()
+        
         following.each { uname ->
             twitterCache.remove uname
         }
