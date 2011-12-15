@@ -36,18 +36,12 @@ class StatusController {
         if (!messages) {
             log.debug "No messages found in cache for user <${springSecurityService.principal.username}>. Querying database..."
             def per = lookupPerson()
-            messages = Status.withCriteria {
-                or {
-                    author {
-                        eq 'username', per.username
-                    }
-                    if (per.followed) {
-                        inList 'author', per.followed
-                    }
-                }
-                maxResults 10
-                order 'dateCreated', 'desc'
-            }
+            def query = Status.whereAny {
+                author { username == per.username }
+                if(per.followed) author in per.followed
+            }.order 'dateCreated', 'desc'
+            messages = query.list(max: 10)
+            
             twitterCache[springSecurityService.principal.username] = messages
         }
         else {
