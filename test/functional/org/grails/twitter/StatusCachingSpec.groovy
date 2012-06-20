@@ -4,7 +4,6 @@ import org.grails.twitter.pages.LoginPage
 import org.grails.twitter.pages.SearchResultsPage
 import org.grails.twitter.pages.StatusPage
 
-import spock.lang.Ignore
 import spock.lang.Stepwise
 
 import geb.spock.GebReportingSpec
@@ -51,22 +50,20 @@ class StatusCachingSpec extends GebReportingSpec {
         updateStatusButton.click()
         
         then:
-        true
         statusMessageDisplayed(0).message == 'My First Status'
         statusMessageDisplayed(0).author == 'Jeff Brown'
     }
 
-    @Ignore
     def 'post second status as jeff'() {
         when:
         newStatusMessage.value('My Second Status')
         updateStatusButton.click()
         
         then:
-        statusMessageDisplayed(0).message == 'My Second Status'
-        statusMessageDisplayed(0).author == 'Jeff Brown'
         statusMessageDisplayed(1).message == 'My First Status'
         statusMessageDisplayed(1).author == 'Jeff Brown'
+        statusMessageDisplayed(0).message == 'My Second Status'
+        statusMessageDisplayed(0).author == 'Jeff Brown'
     }
     
     def 'login as graeme'() {
@@ -86,7 +83,6 @@ class StatusCachingSpec extends GebReportingSpec {
         at StatusPage
     }
     
-    @Ignore
     def 'post first status as graeme'() {
         when:
         newStatusMessage.value('My First Status')
@@ -114,19 +110,17 @@ class StatusCachingSpec extends GebReportingSpec {
         at StatusPage
     }
     
-    @Ignore
     def "verify that graeme's status shows up, indicating that jeff's cache was cleared when graeme posted"() {
         when:
         to StatusPage
         
         then:
         at StatusPage
-        statusMessageDisplayed(0).message == 'My First Status'
-        statusMessageDisplayed(0).author == 'Graeme Rocher'
-        statusMessageDisplayed(1).message == 'My Second Status'
-        statusMessageDisplayed(1).author == 'Jeff Brown'
         statusMessageDisplayed(2).message == 'My First Status'
         statusMessageDisplayed(2).author == 'Jeff Brown'
-
+        statusMessageDisplayed(1).message == 'My Second Status'
+        statusMessageDisplayed(1).author == 'Jeff Brown'
+        statusMessageDisplayed(0).message == 'My First Status'
+        statusMessageDisplayed(0).author == 'Graeme Rocher'
     }
 }
