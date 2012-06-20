@@ -21,7 +21,7 @@
         </g:formRemote>
     </div>
     <div id="messages">
-        <g:render template="statusMessages" collection="${statusMessages}" var="statusMessage"/>
+        <twitter:renderMessages messages="${statusMessages}"/>
     </div>
 </body>
 </html>

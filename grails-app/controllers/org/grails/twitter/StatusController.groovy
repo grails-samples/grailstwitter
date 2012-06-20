@@ -19,7 +19,9 @@ class StatusController {
     def updateStatus(String message) {
         statusService.updateStatus message
         def messages = currentUserTimeline()
-        render template: 'statusMessages', collection: messages, var: 'statusMessage'
+        
+        def content = twitter.renderMessages messages: messages
+        render content
     }
 
     def follow(long id) {
