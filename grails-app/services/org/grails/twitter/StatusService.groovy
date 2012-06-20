@@ -38,6 +38,25 @@ class StatusService {
         }
     }
 
+    def currentUserTimeline() {
+        def messages = twitterCache[springSecurityService.principal.username]
+        if (!messages) {
+            log.debug "No messages found in cache for user <${springSecurityService.principal.username}>. Querying database..."
+            def per = lookupPerson()
+            def query = Status.whereAny {
+                author { username == per.username }
+                if(per.followed) author in per.followed
+            }.order 'dateCreated', 'desc'
+            messages = query.list(max: 10)
+            
+            twitterCache[springSecurityService.principal.username] = messages
+        }
+        else {
+            log.debug "Status messages loaded from cache for user <${springSecurityService.principal.username}>."
+        }
+        messages
+    }
+    
     private lookupPerson() {
         Person.get(springSecurityService.principal.id)
     }
