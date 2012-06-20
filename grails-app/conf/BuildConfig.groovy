@@ -29,7 +29,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
         // runtime 'mysql:mysql-connector-java:5.1.5'
 
-        test 'org.codehaus.geb:geb-spock:0.6.3'
+        test 'org.codehaus.geb:geb-spock:0.7.0'
         test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.21.0") {
             exclude "xml-apis"
         }
@@ -45,7 +45,7 @@ grails.project.dependency.resolution = {
         compile ':jquery:1.6.1.1'
         compile ':searchable:0.6.3'
         compile ':spring-security-core:1.2.4'
-        test ':geb:0.6.3'
+        test ':geb:0.7.0'
         test ':spock:0.6'
     }
     
