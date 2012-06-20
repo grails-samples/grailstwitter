@@ -64,7 +64,7 @@
 					<g:if test='${hasCookie}'>checked='checked'</g:if> />
 				</p>
 				<p>
-					<input type='submit' value='Login' />
+					<input type='submit' value='Login' id="login_button" />
 				</p>
 			</form>
 			<p>
