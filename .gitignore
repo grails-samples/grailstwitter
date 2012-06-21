@@ -1,3 +1,5 @@
+bin
+web-app/WEB-INF/classes
 target
 target-eclipse
 .classpath
