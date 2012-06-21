@@ -39,7 +39,6 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
         
         compile ':activemq:0.1'
-        compile ':gemfire:1.0.0.M5'
         compile ":hibernate:$grailsVersion"
         compile ':jms:1.0'
         compile ':jquery:1.6.1.1'
@@ -47,6 +46,8 @@ grails.project.dependency.resolution = {
         compile ':spring-security-core:1.2.4'
         test ':geb:0.7.0'
         test ':spock:0.6'
+        compile ":cache:1.0.0.RC1"
+        test ':functional-test:1.2.7'
     }
     
 }

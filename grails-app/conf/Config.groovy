@@ -93,9 +93,3 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.grails.twitter.auth.Person'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.grails.twitter.auth.PersonAuthority'
 grails.plugins.springsecurity.authority.className = 'org.grails.twitter.auth.Authority'
-
-grails.gemfire.regions = {
-    twitterCache {
-        entryTimeToLive = expirationAttributes(120, DESTROY)
-    }
-}
