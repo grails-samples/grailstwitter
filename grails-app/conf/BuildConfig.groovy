@@ -29,6 +29,8 @@ grails.project.dependency.resolution = {
 
         mavenRepo "http://repo.grails.org/grails/core"
 
+        mavenCentral()
+
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
         //mavenLocal()
@@ -43,6 +45,7 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.5'
         compile 'org.springframework:spring-jms:3.2.5.RELEASE'
 
+        test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
         test 'org.codehaus.geb:geb-spock:0.7.0'
         test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.21.0") {
             exclude "xml-apis"
@@ -70,8 +73,8 @@ grails.project.dependency.resolution = {
         compile ':jms:1.2'
         compile ':searchable:0.6.6'
         compile ':spring-security-core:1.2.4'
-        test ':geb:0.7.0'
-        test ':spock:0.6'
+        test ':geb:0.9.2'
+        test ':spock:0.7'
         test ':functional-test:1.2.7'
     }
 }
