@@ -1,22 +1,18 @@
 package org.grails.twitter
 
-import grails.plugin.cache.CacheEvict
-import grails.plugin.cache.Cacheable
-
 import org.grails.twitter.auth.Person
 
 class StatusService {
 
-    static expose = ['jms']
-
-    def springSecurityService
+    def twitterSecurityService
     def timelineService
     
-    void onMessage(newMessageUserName) {
+    void clearTimelineCacheForUser(newMessageUserName) {
         log.debug "Message received. New status message posted by user <${newMessageUserName}>."
         def following = Person.where {
-            followed.username == newMessageUserName
+            followed.userName == newMessageUserName
         }.property('username').list()
+
         following.each { uname ->
             timelineService.clearTimelineCacheForUser(uname)
         }
@@ -24,21 +20,26 @@ class StatusService {
 
     void updateStatus(String message) {
         def status = new Status(message: message)
-        status.author = lookupCurrentPerson()
+        status.author = twitterSecurityService.currentUser
         status.save()
-        timelineService.clearTimelineCacheForUser(status.author.username)
+        timelineService.clearTimelineCacheForUser(status.author.userName)
     }
 
-    void follow(long personId) {
-        def person = Person.get(personId)
+    void unfollow(String userName) {
+        def person = Person.findByUserName(userName)
         if (person) {
-            def currentUser = lookupCurrentPerson()
-            currentUser.addToFollowed(person)
-            timelineService.clearTimelineCacheForUser(currentUser.username)
+            def currentUser = twitterSecurityService.currentUser
+            currentUser.removeFromFollowed(person)
+            timelineService.clearTimelineCacheForUser(currentUser.userName)
         }
     }
 
-    private lookupCurrentPerson() {
-        Person.get(springSecurityService.principal.id)
+    void follow(String userName) {
+        def person = Person.findByUserName(userName)
+        if (person) {
+            def currentUser = twitterSecurityService.currentUser
+            currentUser.addToFollowed(person)
+            timelineService.clearTimelineCacheForUser(currentUser.userName)
+        }
     }
 }

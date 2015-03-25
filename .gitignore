@@ -1,10 +1,4 @@
-bin
-web-app/WEB-INF/classes
-target
-target-eclipse
-.classpath
-.project
-.settings
-stacktrace.log
-*.swp
-
+build
+.gradle
+.idea
+*.iml

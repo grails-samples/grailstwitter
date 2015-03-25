@@ -1,100 +1,114 @@
+<!doctype html>
 <html>
     <head>
+        <meta name="layout" content="main"/>
         <title>Welcome to Grails</title>
-        <meta name="layout" content="main" />
         <style type="text/css" media="screen">
+            #status {
+                background-color: #eee;
+                border: .2em solid #fff;
+                margin: 2em 2em 1em;
+                padding: 1em;
+                width: 12em;
+                float: left;
+                -moz-box-shadow: 0px 0px 1.25em #ccc;
+                -webkit-box-shadow: 0px 0px 1.25em #ccc;
+                box-shadow: 0px 0px 1.25em #ccc;
+                -moz-border-radius: 0.6em;
+                -webkit-border-radius: 0.6em;
+                border-radius: 0.6em;
+            }
 
-        #nav {
-            margin-top:20px;
-            margin-left:30px;
-            width:228px;
-            float:left;
+            #status ul {
+                font-size: 0.9em;
+                list-style-type: none;
+                margin-bottom: 0.6em;
+                padding: 0;
+            }
 
-        }
-        .homePagePanel * {
-            margin:0px;
-        }
-        .homePagePanel .panelBody ul {
-            list-style-type:none;
-            margin-bottom:10px;
-        }
-        .homePagePanel .panelBody h1 {
-            text-transform:uppercase;
-            font-size:1.1em;
-            margin-bottom:10px;
-        }
-        .homePagePanel .panelBody {
-            background: url(images/leftnav_midstretch.png) repeat-y top;
-            margin:0px;
-            padding:15px;
-        }
-        .homePagePanel .panelBtm {
-            background: url(images/leftnav_btm.png) no-repeat top;
-            height:20px;
-            margin:0px;
-        }
+            #status li {
+                line-height: 1.3;
+            }
 
-        .homePagePanel .panelTop {
-            background: url(images/leftnav_top.png) no-repeat top;
-            height:11px;
-            margin:0px;
-        }
-        h2 {
-            margin-top:15px;
-            margin-bottom:15px;
-            font-size:1.2em;
-        }
-        #pageBody {
-            margin-left:280px;
-            margin-right:20px;
-        }
+            #status h1 {
+                text-transform: uppercase;
+                font-size: 1.1em;
+                margin: 0 0 0.3em;
+            }
+
+            #page-body {
+                margin: 2em 1em 1.25em 18em;
+            }
+
+            h2 {
+                margin-top: 1em;
+                margin-bottom: 0.3em;
+                font-size: 1em;
+            }
+
+            p {
+                line-height: 1.5;
+                margin: 0.25em 0;
+            }
+
+            #controller-list ul {
+                list-style-position: inside;
+            }
+
+            #controller-list li {
+                line-height: 1.3;
+                list-style-position: inside;
+                margin: 0.25em 0;
+            }
+
+            @media screen and (max-width: 480px) {
+                #status {
+                    display: none;
+                }
+
+                #page-body {
+                    margin: 0 1em 1em;
+                }
+
+                #page-body h1 {
+                    margin-top: 0;
+                }
+            }
         </style>
     </head>
     <body>
-        <div id="nav">
-            <div class="homePagePanel">
-                <div class="panelTop"></div>
-                <div class="panelBody">
-                    <h1>Application Status</h1>
-                    <ul>
-                        <li>App version: <g:meta name="app.version"></g:meta></li>
-                        <li>Grails version: <g:meta name="app.grails.version"></g:meta></li>
-                        <li>Groovy version: ${GroovySystem.getVersion()}</li>
-                        <li>JVM version: ${System.getProperty('java.version')}</li>
-                        <li>Controllers: ${grailsApplication.controllerClasses.size()}</li>
-                        <li>Domains: ${grailsApplication.domainClasses.size()}</li>
-                        <li>Services: ${grailsApplication.serviceClasses.size()}</li>
-                        <li>Tag Libraries: ${grailsApplication.tagLibClasses.size()}</li>
-                    </ul>
-                    <h1>Installed Plugins</h1>
-                    <ul>
-                        <g:set var="pluginManager"
-                               value="${applicationContext.getBean('pluginManager')}"></g:set>
-
-                        <g:each var="plugin" in="${pluginManager.allPlugins}">
-                            <li>${plugin.name} - ${plugin.version}</li>
-                        </g:each>
-
-                    </ul>
-                </div>
-                <div class="panelBtm"></div>
-            </div>
+        <a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+        <div id="status" role="complementary">
+            <h1>Application Status</h1>
+            <ul>
+                <li>Environment: ${grails.util.Environment.current.name}</li>
+                <li>App profile: ${grailsApplication.config.grails?.profile}</li>
+                <li>App version: <g:meta name="info.app.version"/></li>
+                <li>Grails version: <g:meta name="info.app.grailsVersion"/></li>
+                <li>Groovy version: ${GroovySystem.getVersion()}</li>
+                <li>JVM version: ${System.getProperty('java.version')}</li>
+                <li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>
+            </ul>
+            <h1>Artefacts</h1>
+            <ul>
+                <li>Controllers: ${grailsApplication.controllerClasses.size()}</li>
+                <li>Domains: ${grailsApplication.domainClasses.size()}</li>
+                <li>Services: ${grailsApplication.serviceClasses.size()}</li>
+                <li>Tag Libraries: ${grailsApplication.tagLibClasses.size()}</li>                    
+            </ul>
+            <h1>Installed Plugins</h1>
+            <ul>
+                <g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
+                    <li>${plugin.name} - ${plugin.version}</li>
+                </g:each>
+            </ul>
         </div>
-        <div id="pageBody">
-            <h1>Welcome to Grails</h1>
-            <p>Congratulations, you have successfully started your first Grails application! At the moment
-            this is the default page, feel free to modify it to either redirect to a controller or display whatever
-            content you may choose. Below is a list of controllers that are currently deployed in this application,
-            click on each to execute its default action:</p>
-
-            <div id="controllerList" class="dialog">
-                <h2>Available Controllers:</h2>
-                <ul>
-                    <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                        <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
-                    </g:each>
-                </ul>
-            </div>
+        <div id="page-body" role="main">
+            <h1>Welcome To The Grails 3 Twitter Sample App</h1>
+            <p>This is a simple sample application which demonstrates some fundamentals of the framework.  More details (TBD).</p>
+            <p>
+                Click <g:link controller="status">here</g:link> to access the main part of the system.
+            </p>
         </div>
     </body>
 </html>
