@@ -74,7 +74,7 @@ dependencies {
 
     runtime 'org.grails.plugins:ajax-tags:1.0.0.RC1'
 
-    compile 'org.grails.plugins:simple-spring-security:1.0.0.BUILD-SNAPSHOT'
+    runtime 'org.grails.plugins:simple-spring-security:1.0.0.BUILD-SNAPSHOT'
 }
 
 task wrapper(type: Wrapper) {
