@@ -12,6 +12,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/status')}"><g:message code="default.home.label"/></a></li>
+                <li><g:link controller="person">Users</g:link></li>
+                <li><a href="/logout">Logout</a></li>
 			</ul>
 		</div>
 		<div id="list-person" class="content scaffold-list" role="main">
