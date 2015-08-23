@@ -52,7 +52,7 @@ class LoginFunctionalSpec extends GebSpec{
         at StatusPage
 
         when:
-        go '/users'
+        go '/person/index'
 
         then:
         at UserPage

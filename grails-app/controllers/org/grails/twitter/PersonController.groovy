@@ -20,4 +20,8 @@ class PersonController {
         statusService.follow userToFollow
         redirect action: 'index'
     }
+
+    def show(Person person) {
+        [person: person, messages: Status.findAllByAuthor(person, [max: 10, sort: "dateCreated", order: "desc" ] )]
+    }
 }
