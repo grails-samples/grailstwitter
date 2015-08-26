@@ -7,6 +7,6 @@ class TwitterSecurityService {
     def springSecurityService
 
     Person getCurrentUser() {
-        Person.findByUserName(springSecurityService.principal.username)
+        springSecurityService.currentUser
     }
 }

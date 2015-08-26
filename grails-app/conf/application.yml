@@ -30,7 +30,7 @@ grails:
             css: text/css
             csv: text/csv
             form: application/x-www-form-urlencoded
-            html: 
+            html:
               - text/html
               - application/xhtml+xml
             js: text/javascript
@@ -40,7 +40,7 @@ grails:
             multipartForm: multipart/form-data
             rss: application/rss+xml
             text: text/plain
-            hal: 
+            hal:
               - application/hal+json
               - application/hal+xml
             xml:
@@ -67,6 +67,32 @@ grails:
                 scriptlets: html
                 taglib: none
                 staticparts: none
+
+    plugin:
+        springsecurity:
+            userLookup:
+                userDomainClassName: 'org.grails.twitter.auth.Person'
+                usernamePropertyName: 'userName'
+                authorityJoinClassName: 'org.grails.twitter.auth.UserRole'
+            authority:
+                className: 'org.grails.twitter.auth.Role'
+            logout:
+                postOnly: false
+            controllerAnnotations:
+                staticRules:
+                    /:                ['permitAll']
+                    /error:           ['permitAll']
+                    /index:           ['permitAll']
+                    /index.gsp:       ['permitAll']
+                    /shutdown:        ['permitAll']
+                    /assets/**:       ['permitAll']
+                    /**/js/**:        ['permitAll']
+                    /**/css/**:       ['permitAll']
+                    /**/images/**:    ['permitAll']
+                    /**/favicon.ico:  ['permitAll']
+                    /updateStatus:    ['permitAll']
+                    /unfollow/*:      ['permitAll']
+                    /follow/*:        ['permitAll']
 
 ---
 dataSource:
