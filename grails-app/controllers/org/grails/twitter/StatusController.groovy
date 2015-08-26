@@ -7,16 +7,15 @@ class StatusController {
 
     def statusService
     def timelineService
-    def springSecurityService
 
     def index() {
-        def messages = timelineService.getTimelineForUser(springSecurityService.principal.username)
+        def messages = timelineService.getTimelineForUser()
         [statusMessages: messages]
     }
 
     def updateStatus(String message) {
         statusService.updateStatus message
-        def messages = timelineService.getTimelineForUser(springSecurityService.principal.username)
+        def messages = timelineService.getTimelineForUser()
 
         def content = twitter.renderMessages messages: messages
         render content

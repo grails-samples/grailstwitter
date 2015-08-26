@@ -11,6 +11,6 @@ class LoginPage extends Page{
     }
 
     static content = {
-        logginButton { $('input', type: 'submit') }
+        loginButton { $('input', type: 'submit') }
     }
 }

@@ -9,5 +9,6 @@
 *
 *= require main
 *= require mobile
+*= require grailstwitter
 *= require_self
 */

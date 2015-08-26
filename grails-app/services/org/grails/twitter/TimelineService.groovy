@@ -4,9 +4,13 @@ import org.grails.twitter.auth.Person
 
 class TimelineService {
 
+    static transactional = false
+
+    def springSecurityService
+
     void clearTimelineCacheForUser(String username) {}
 
-    def getTimelineForUser(String username) {
+    def getTimelineForUser(String username = springSecurityService.principal.username) {
         def per = Person.where {
             userName == username
         }.find()
