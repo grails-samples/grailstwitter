@@ -4,9 +4,19 @@ import org.grails.twitter.auth.Person
 
 class TwitterSecurityService {
 
+    static transactional = false
+
     def springSecurityService
 
     Person getCurrentUser() {
-        Person.findByUserName(springSecurityService.principal.username)
+        springSecurityService.currentUser
+    }
+
+    String getCurrentUsername() {
+        springSecurityService.principal.username
+    }
+
+    Person loadCurrentUser() {
+        Person.load springSecurityService.principal.id
     }
 }

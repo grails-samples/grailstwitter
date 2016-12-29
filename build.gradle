@@ -61,6 +61,8 @@ dependencies {
     compile "org.grails.plugins:cache"
     compile "org.hibernate:hibernate-ehcache"
 
+    compile 'org.grails.plugins:spring-security-core:3.0.0.M1'
+
     runtime "org.grails.plugins:asset-pipeline"
     runtime "org.grails.plugins:scaffolding"
 
@@ -73,8 +75,6 @@ dependencies {
     console "org.grails:grails-console"
 
     runtime 'org.grails.plugins:ajax-tags:1.0.0.RC1'
-
-    runtime 'org.grails.plugins:simple-spring-security:1.0.0.BUILD-SNAPSHOT'
 }
 
 task wrapper(type: Wrapper) {

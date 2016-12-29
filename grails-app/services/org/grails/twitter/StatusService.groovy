@@ -2,12 +2,15 @@ package org.grails.twitter
 
 import org.grails.twitter.auth.Person
 
+import grails.transaction.Transactional
+
+@Transactional
 class StatusService {
 
     def twitterSecurityService
     def timelineService
-    
-    void clearTimelineCacheForUser(newMessageUserName) {
+
+    void clearTimelineCacheForUser(String newMessageUserName) {
         log.debug "Message received. New status message posted by user <${newMessageUserName}>."
         def following = Person.where {
             followed.userName == newMessageUserName
@@ -20,7 +23,7 @@ class StatusService {
 
     void updateStatus(String message) {
         def status = new Status(message: message)
-        status.author = twitterSecurityService.currentUser
+        status.author = twitterSecurityService.loadCurrentUser()
         status.save()
         timelineService.clearTimelineCacheForUser(status.author.userName)
     }
