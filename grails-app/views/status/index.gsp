@@ -24,5 +24,24 @@
             <twitter:renderMessages messages="${statusMessages}"/>
         </div>
     </div>
+
+    <asset:javascript src="spring-websocket" />
+    <script type="text/javascript">
+        $(function() {
+            var socket = new SockJS("${createLink(uri: '/stomp')}");
+            var client = Stomp.over(socket);
+
+            client.connect({}, function() {
+                client.subscribe("/topic/hello", function(message) {
+                    //$("#helloDiv").append(message.body);
+                    console.log("Websocket client received:", message.body);
+                });
+            });
+
+            $("#helloButton").click(function() {
+                client.send("/app/hello", {}, JSON.stringify("world"));
+            });
+        });
+    </script>
 </body>
 </html>
