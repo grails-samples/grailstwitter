@@ -49,21 +49,21 @@
 			<div class='login_message'>${flash.message}</div>
 			</g:if>
 			<div class='fheader'>Please Login..</div>
-			<form action='/j_spring_security_check' method='POST' id='loginForm' class='cssform' autocomplete='off'>
+			<form action='/login/authenticate' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 				<p>
 					<label for='username'>Login ID</label>
-					<input type='text' class='text_' name='j_username' id='username' />
+					<input type='text' class='text_' name='username' id='username' />
 				</p>
 				<p>
 					<label for='password'>Password</label>
-					<input type='password' class='text_' name='j_password' id='password' />
+					<input type='password' class='text_' name='password' id='password' />
 				</p>
 				<p>
 					<input type='submit' value='Login' id="login_button" />
 				</p>
 			</form>
 			<p>
-			    (Valid user names are graeme, jeff and lari. Password is password.)
+			    (Valid user names are graeme, jeff, matthew, and lari. Password is password.)
 			</p>
 		</div>
 	</div>

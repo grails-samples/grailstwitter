@@ -1,3 +1,5 @@
+package twitter
+
 class UrlMappings {
 
     static mappings = {

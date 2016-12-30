@@ -1,3 +1,5 @@
+package twitter
+
 import org.grails.twitter.auth.Person
 import org.grails.twitter.auth.PersonRole
 import org.grails.twitter.auth.Role
@@ -17,7 +19,10 @@ class BootStrap {
         createPerson 'Jeff', 'Brown'
         createPerson 'Lari', 'Hotari'
         createPerson 'Graeme', 'Rocher'
+        createPerson 'Matthew', 'Moss'
     }
+
     def destroy = {
     }
+
 }

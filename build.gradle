@@ -8,24 +8,25 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.1.1'
+        classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.11.6'
+        classpath "org.grails.plugins:hibernate5:6.0.4"
     }
 }
 
 plugins {
-    id 'io.spring.dependency-management' version '1.0.0.RC1'
+    id 'io.spring.dependency-management' version '0.6.0.RELEASE'
+    id 'org.springframework.boot' version '1.4.3.RELEASE'
 }
 
 version "0.1"
 group "twitter"
 
-apply plugin: "spring-boot"
-apply plugin: "war"
-apply plugin: "asset-pipeline"
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: "war"
 apply plugin: "org.grails.grails-web"
 apply plugin: "org.grails.grails-gsp"
+apply plugin: "asset-pipeline"
 
 ext {
     grailsVersion = project.grailsVersion
@@ -57,11 +58,11 @@ dependencies {
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
 
-    compile "org.grails.plugins:hibernate"
+    compile "org.grails.plugins:hibernate5"
     compile "org.grails.plugins:cache"
     compile "org.hibernate:hibernate-ehcache"
 
-    compile 'org.grails.plugins:spring-security-core:3.0.0.M1'
+    compile 'org.grails.plugins:spring-security-core:3.1.1'
 
     runtime "org.grails.plugins:asset-pipeline"
     runtime "org.grails.plugins:scaffolding"
