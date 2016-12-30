@@ -103,6 +103,8 @@ grails:
                       access: ['permitAll']
                     - pattern: '/follow/*'
                       access: ['permitAll']
+                    - pattern: '/stomp/**'
+                      access: ['permitAll']
 
 ---
 hibernate:
