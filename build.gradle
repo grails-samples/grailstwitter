@@ -47,6 +47,7 @@ dependencies {
     compile "org.hibernate:hibernate-core:5.1.2.Final"
     compile "org.hibernate:hibernate-ehcache:5.1.2.Final"
     compile "org.grails.plugins:grails-spring-websocket:2.3.0"
+    compile 'rpalcolea.gravatar:gravatar:1.0.2'
 
     console "org.grails:grails-console"
 
