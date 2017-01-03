@@ -67,6 +67,12 @@
     color: grey;
 }
 
+#userStats:before {
+    content: '';
+    display: block;
+    clear: both;
+}
+
 #userStats dd {
     display: inline;
     margin: 0;
