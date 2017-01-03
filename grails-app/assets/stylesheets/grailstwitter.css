@@ -3,10 +3,17 @@
 }
 
 .statusMessage {
-    padding: 10px;
-    width: 300px;
+    margin: 24px 0;
 }
 
-.statusMessageTime {
+.gravatar {
+    float: left;
+    margin-left: -60px;
+    width: 48px;
+    height: 48px;
+}
+
+.byline {
+    font-size: 80%;
     color: grey;
 }

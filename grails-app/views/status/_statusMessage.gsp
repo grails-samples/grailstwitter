@@ -1,5 +1,16 @@
 <div class="statusMessage" id="message_${statusMessage.id}">
-    <strong><span class="author">${statusMessage.author.displayName}</span> said</strong>
-    <span class="statusMessage">${statusMessage.message}</span><br/>
-    <div class="statusMessageTime">at <g:formatDate date="${statusMessage.dateCreated}"/></div>
+    <gravatar:image email="${statusMessage.author.email ?: statusMessage.author.displayName}"
+                    defaultGravatarUrl="retro" />
+    <div>
+        <div class="byline">
+            <span class="author">${statusMessage.author.displayName}</span>
+            <span class="handle">@${statusMessage.author.userName}</span> •
+            <span class="created">
+                <g:formatDate format="yyyy MMM d HH:mm:ss" date="${statusMessage.dateCreated}" />
+            </span>
+        </div>
+        <div>
+            <span class="statusMessage">${statusMessage.message}</span><br/>
+        </div>
+    </div>
 </div>

@@ -12,6 +12,7 @@ class Person implements Serializable {
     String firstName
     String lastName
     String userName
+    String email
 
     String password
     boolean enabled = true
@@ -24,6 +25,7 @@ class Person implements Serializable {
 
     static constraints = {
         userName blank: false, unique: true
+        email nullable: true
     }
 
     String getDisplayName() {
