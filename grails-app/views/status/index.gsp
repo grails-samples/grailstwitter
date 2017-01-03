@@ -31,15 +31,15 @@
             </div>
             <div id="following" class="panel">
                 <h2>Following</h2>
-                <twitter:renderPeople people="${following}" />
+                <g:render template="/status/peopleList" model="[people: following]" />
             </div>
             <div id="followers" class="panel">
                 <h2>Followers</h2>
-                <twitter:renderPeople people="${followers}" />
+                <g:render template="/status/peopleList" model="[people: followers]" />
             </div>
             <div id="otherUsers" class="panel">
                 <h2>Other People</h2>
-                <twitter:renderPeople people="${otherUsers}" />
+                <g:render template="/status/peopleList" model="[people: otherUsers]" />
             </div>
         </div>
         <div class="column mainboard">
@@ -63,7 +63,7 @@
             var client = Stomp.over(socket);
 
             client.connect({}, function() {
-                client.subscribe('/person/queue/timeline', function(message) {
+                client.subscribe('/user/queue/timeline', function(message) {
                     $('#messages').prepend(message.body);
                 })
             });
