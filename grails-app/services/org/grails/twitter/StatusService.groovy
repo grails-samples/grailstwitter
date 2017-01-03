@@ -7,14 +7,21 @@ import grails.transaction.Transactional
 @Transactional
 class StatusService {
 
+    def brokerMessagingTemplate
+
+    def groovyPageRenderer
     def twitterSecurityService
     def timelineService
 
+    def getFollowersOf(String userName) {
+        Person.where {
+            followed.userName == userName
+        }.property('userName').list()
+    }
+
     void clearTimelineCacheForUser(String newMessageUserName) {
         log.debug "Message received. New status message posted by user <${newMessageUserName}>."
-        def following = Person.where {
-            followed.userName == newMessageUserName
-        }.property('username').list()
+        def following = getFollowersOf(newMessageUserName)
 
         following.each { uname ->
             timelineService.clearTimelineCacheForUser(uname)
@@ -26,6 +33,13 @@ class StatusService {
         status.author = twitterSecurityService.loadCurrentUser()
         status.save()
         timelineService.clearTimelineCacheForUser(status.author.userName)
+
+        def renderedStatus = groovyPageRenderer.render template: '/status/statusMessages',
+                model: [statusMessage: status]
+
+        getFollowersOf(status.author.userName).each { follower ->
+            brokerMessagingTemplate.convertAndSendToUser follower, '/queue/timeline', renderedStatus
+        }
     }
 
     void unfollow(String userName) {

@@ -13,9 +13,9 @@
     </div>
     <div class="pageBody">
         <h1>Hello <twitter:renderCurrentUserName/>. What Are You Doing?</h1>
-        <div class="updatStatusForm">
+        <div class="updateStatusForm">
             <g:formRemote url="[action: 'updateStatus']" update="messages" name="updateStatusForm"
-                          onSuccess="document.getElementById('message').value='';">
+                          onSuccess="document.getElementById('message').value=''">
                 <g:textArea name="message" value=""/><br/>
                 <g:submitButton value="Update Status" name="updateStatus" id="update_status_button"/>
             </g:formRemote>
@@ -32,14 +32,9 @@
             var client = Stomp.over(socket);
 
             client.connect({}, function() {
-                client.subscribe("/topic/hello", function(message) {
-                    //$("#helloDiv").append(message.body);
-                    console.log("Websocket client received:", message.body);
-                });
-            });
-
-            $("#helloButton").click(function() {
-                client.send("/app/hello", {}, JSON.stringify("world"));
+                client.subscribe('/user/queue/timeline', function(message) {
+                    $('#messages').prepend(message.body);
+                })
             });
         });
     </script>
