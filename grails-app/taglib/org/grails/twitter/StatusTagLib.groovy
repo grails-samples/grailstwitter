@@ -35,4 +35,8 @@ class StatusTagLib {
             out << '(you)'
         }
     }
+
+    def renderPeople = { attrs ->
+        out << g.render(template: '/status/peopleList', model: attrs)
+    }
 }

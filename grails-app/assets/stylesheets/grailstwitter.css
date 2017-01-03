@@ -1,19 +1,102 @@
 .pageBody {
-    padding: 5px 5px 5px 100px;
+    width: 96%;
+    margin: auto;
 }
 
-.statusMessage {
-    margin: 24px 0;
+.column {
+    float: left;
+}
+
+.sideboard {
+    width: 30%;
+}
+
+#profile {
+    padding: 12px;
+}
+
+.panel {
+    width: 96%;
+    margin: 16px auto;
+    border: solid 5px #999;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.panel:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.mainboard {
+    width: 60%;
+    padding-left: 60px;
+}
+
+#message {
+    padding: 8px;
+    width: 80%;
+    border: solid 5px #ccc;
+}
+
+#message:focus {
+    border: solid 5px #999;
+}
+
+#messages {
+    padding: 0;
+    margin: 12px 0;
+}
+
+.statusMessage:after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 .gravatar {
-    float: left;
-    margin-left: -60px;
+    margin: 0 12px 12px 0;
     width: 48px;
     height: 48px;
+    float: left;
 }
 
 .byline {
     font-size: 80%;
     color: grey;
+}
+
+#userStats dd {
+    display: inline;
+    margin: 0;
+    font-weight: bolder;
+    color: #02f;
+}
+
+#userStats dd:after {
+    display: block;
+    content: '';
+}
+
+#userStats dt {
+    display: inline-block;
+    min-width: 75%;
+    margin: 2px;
+}
+
+.personList {
+    margin: 12px 0;
+    list-style-type: none;
+}
+.personList .gravatar {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    margin-bottom: -2px;
+    float: none;
+}
+
+.personList li {
+    margin: 2px;
 }

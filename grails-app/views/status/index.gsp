@@ -1,3 +1,5 @@
+<%@ page import="org.grails.twitter.Status" %>
+
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -11,17 +13,46 @@
             <li><g:link controller='logout'>Logout</g:link></li>
         </ul>
     </div>
+
     <div class="pageBody">
-        <h1>Hello <twitter:renderCurrentUserName/>. What Are You Doing?</h1>
-        <div class="updateStatusForm">
-            <g:formRemote url="[action: 'updateStatus']" update="messages" name="updateStatusForm"
-                          onSuccess="document.getElementById('message').value=''">
-                <g:textArea name="message" value=""/><br/>
-                <g:submitButton value="Update Status" name="updateStatus" id="update_status_button"/>
-            </g:formRemote>
+        <div class="column sideboard">
+            <div id="profile" class="panel">
+                <div>
+                    <gravatar:image email="${person.email ?: person.displayName}" defaultGravatarUrl="retro" />
+                    <h2><twitter:renderCurrentUserName/></h2>
+                </div>
+                <div id="userStats">
+                    <dl>
+                        <dt>Status Updates</dt><dd>${tweetCount}</dd>
+                        <dt>Following</dt><dd>${following.size()}</dd>
+                        <dt>Followers</dt><dd>${followers.size()}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div id="following" class="panel">
+                <h2>Following</h2>
+                <twitter:renderPeople people="${following}" />
+            </div>
+            <div id="followers" class="panel">
+                <h2>Followers</h2>
+                <twitter:renderPeople people="${followers}" />
+            </div>
+            <div id="otherUsers" class="panel">
+                <h2>Other People</h2>
+                <twitter:renderPeople people="${otherUsers}" />
+            </div>
         </div>
-        <div id="messages">
-            <twitter:renderMessages messages="${statusMessages}"/>
+        <div class="column mainboard">
+            <h1>Hello, <twitter:renderCurrentUserName/>...</h1>
+            <div class="updateStatusForm">
+                <g:formRemote url="[action: 'updateStatus']" update="messages" name="updateStatusForm"
+                              onSuccess="document.getElementById('message').value=''">
+                    <g:textField name="message" value="" placeholder="What are you doing?" /><br/>
+                </g:formRemote>
+            </div>
+            <div id="messages">
+                <twitter:renderMessages messages="${statusMessages}"/>
+            </div>
         </div>
     </div>
 
@@ -32,7 +63,7 @@
             var client = Stomp.over(socket);
 
             client.connect({}, function() {
-                client.subscribe('/user/queue/timeline', function(message) {
+                client.subscribe('/person/queue/timeline', function(message) {
                     $('#messages').prepend(message.body);
                 })
             });
