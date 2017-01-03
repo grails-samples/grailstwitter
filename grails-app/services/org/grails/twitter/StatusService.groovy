@@ -34,7 +34,7 @@ class StatusService {
         status.save()
         timelineService.clearTimelineCacheForUser(status.author.userName)
 
-        def renderedStatus = groovyPageRenderer.render template: '/status/statusMessages',
+        def renderedStatus = groovyPageRenderer.render template: '/status/statusMessage',
                 model: [statusMessage: status]
 
         getFollowersOf(status.author.userName).each { follower ->

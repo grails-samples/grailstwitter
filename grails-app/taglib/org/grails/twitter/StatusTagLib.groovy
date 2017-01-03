@@ -13,7 +13,7 @@ class StatusTagLib {
     def renderMessages = { attrs ->
         def messages = attrs.messages
         messages.each { message ->
-            out << g.render(template: '/status/statusMessages', model: [statusMessage: message])
+            out << g.render(template: '/status/statusMessage', model: [statusMessage: message])
         }
     }
 
