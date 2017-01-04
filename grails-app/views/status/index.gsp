@@ -12,12 +12,13 @@
         <div class="column sideboard">
             <div id="profile" class="panel">
                 <div>
-                    <gravatar:image email="${person.email ?: person.displayName}" defaultGravatarUrl="retro" />
+                    <gravatar:image email="${person.email ?: person.displayName}" title="${person.displayName}"
+                                    defaultGravatarUrl="retro" />
                     <h2>${displayName}</h2>
                 </div>
                 <div id="userStats">
                     <dl>
-                        <dt><g:message code="status.updateCount.label" /></dt><dd>${tweetCount}</dd>
+                        <dt><g:message code="status.updateCount.label" /></dt><dd>${totalStatusCount}</dd>
                         <dt><g:message code="status.followingCount.label" /></dt><dd>${following.size()}</dd>
                         <dt><g:message code="status.followersCount.label" /></dt><dd>${followers.size()}</dd>
                     </dl>

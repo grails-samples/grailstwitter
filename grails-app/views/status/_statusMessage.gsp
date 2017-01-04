@@ -1,5 +1,6 @@
 <div class="statusMessage" id="message_${statusMessage.id}">
     <gravatar:image email="${statusMessage.author.email ?: statusMessage.author.displayName}"
+                    title="${statusMessage.author.displayName}"
                     defaultGravatarUrl="retro" />
     <div>
         <div class="byline">

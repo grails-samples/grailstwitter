@@ -6,24 +6,18 @@ class TimelineService {
 
     static transactional = false
 
-    def springSecurityService
+    def twitterSecurityService
 
-    void clearTimelineCacheForUser(String username) {}
+    void clearTimelineCacheForUser(String username) { }
 
-    def getTimelineForUser(String username = springSecurityService.principal.username) {
-        def per = Person.where {
-            userName == username
-        }.find()
-
-        def query = Status.whereAny {
-            author {
-                userName == per.userName
+    def getTimelineForUser(String username = twitterSecurityService.currentUsername) {
+        def person = Person.findByUserName(username)
+        if (person) {
+            def query = Status.whereAny {
+                author == person
+                author in person.followed
             }
-            if(per.followed) author in per.followed
-        }.order 'dateCreated', 'desc'
-
-        def messages = query.list(max: 10)
-
-        messages
+            query.list(max: 10, sort: 'dateCreated', order: 'desc')
+        }
     }
 }

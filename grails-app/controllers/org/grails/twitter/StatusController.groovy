@@ -8,26 +8,30 @@ class StatusController {
 
     def statusService
     def timelineService
-    def springSecurityService
+    def twitterSecurityService
 
     def index() {
-        def messages = timelineService.getTimelineForUser()
-        def username = springSecurityService.principal.username
+        def messages = timelineService.timelineForUser
+        def username = twitterSecurityService.currentUsername
         def person = Person.findByUserName(username)
-        def tweetCount = Status.where { author.userName == username }.count()
+        def totalStatusCount = Status.where { author.userName == username }.count()
 
         def following = person.followed
         def followers = Person.where { followed.userName == username }.list()
         def otherUsers = Person.list() - following - followers - person
 
-        [statusMessages: messages, person: person, tweetCount: tweetCount,
-         following: following, followers: followers, otherUsers: otherUsers]
+        [statusMessages: messages,
+         person: person,
+         totalStatusCount: totalStatusCount,
+         following: following,
+         followers: followers,
+         otherUsers: otherUsers]
     }
 
     def updateStatus(String message) {
         statusService.updateStatus message
-        def messages = timelineService.getTimelineForUser()
 
+        def messages = timelineService.timelineForUser
         def content = twitter.renderMessages messages: messages
         render content
     }
