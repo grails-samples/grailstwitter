@@ -1,53 +1,47 @@
-<%@ page import="org.grails.twitter.Status" %>
-
 <html>
 <head>
     <meta name="layout" content="main"/>
     <title>What Are You Doing?</title>
 </head>
 <body>
-    <div class="nav" role="navigation">
-        <ul>
-            <li><a class="home" href="${createLink(uri: '/status')}"><g:message code="default.home.label"/></a></li>
-            <li><g:link controller="person">Users</g:link></li>
-            <li><g:link controller='logout'>Logout</g:link></li>
-        </ul>
-    </div>
+    <g:set var="displayName"><twitter:renderCurrentUserName /></g:set>
+
+    <g:render template="/navbar" />
 
     <div class="pageBody">
         <div class="column sideboard">
             <div id="profile" class="panel">
                 <div>
                     <gravatar:image email="${person.email ?: person.displayName}" defaultGravatarUrl="retro" />
-                    <h2><twitter:renderCurrentUserName/></h2>
+                    <h2>${displayName}</h2>
                 </div>
                 <div id="userStats">
                     <dl>
-                        <dt>Status Updates</dt><dd>${tweetCount}</dd>
-                        <dt>Following</dt><dd>${following.size()}</dd>
-                        <dt>Followers</dt><dd>${followers.size()}</dd>
+                        <dt><g:message code="status.updateCount.label" /></dt><dd>${tweetCount}</dd>
+                        <dt><g:message code="status.followingCount.label" /></dt><dd>${following.size()}</dd>
+                        <dt><g:message code="status.followersCount.label" /></dt><dd>${followers.size()}</dd>
                     </dl>
                 </div>
             </div>
             <div id="following" class="panel">
-                <h2>Following</h2>
+                <h2><g:message code="status.followingList.label" /></h2>
                 <g:render template="/status/peopleList" model="[people: following]" />
             </div>
             <div id="followers" class="panel">
-                <h2>Followers</h2>
+                <h2><g:message code="status.followersList.label" /></h2>
                 <g:render template="/status/peopleList" model="[people: followers]" />
             </div>
             <div id="otherUsers" class="panel">
-                <h2>Other People</h2>
+                <h2><g:message code="status.otherUsersList.label" /></h2>
                 <g:render template="/status/peopleList" model="[people: otherUsers]" />
             </div>
         </div>
         <div class="column mainboard">
-            <h1>Hello, <twitter:renderCurrentUserName/>...</h1>
+            <h1><g:message code="status.greeting" args="${displayName}" /></h1>
             <div class="updateStatusForm">
                 <g:formRemote url="[action: 'updateStatus']" update="messages" name="updateStatusForm"
                               onSuccess="document.getElementById('message').value=''">
-                    <g:textField name="message" value="" placeholder="What are you doing?" /><br/>
+                    <g:textField name="message" value="" placeholder="${g.message(code: 'status.placeholder')}" />
                 </g:formRemote>
             </div>
             <div id="messages">
