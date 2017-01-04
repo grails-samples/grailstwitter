@@ -12,12 +12,11 @@ class StatusController {
 
     def index() {
         def messages = timelineService.timelineForUser
-        def username = twitterSecurityService.currentUsername
-        def person = Person.findByUserName(username)
-        def totalStatusCount = Status.where { author.userName == username }.count()
+        def person = twitterSecurityService.currentUser
+        def totalStatusCount = Status.where { author.userName == person.userName }.count()
 
         def following = person.followed
-        def followers = Person.where { followed.userName == username }.list()
+        def followers = Person.where { followed.userName == person.userName }.list()
         def otherUsers = Person.list() - following - followers - person
 
         [statusMessages: messages,
