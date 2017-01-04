@@ -58,7 +58,7 @@
 
             client.connect({}, function() {
                 client.subscribe('/user/queue/timeline', function(message) {
-                    $('#messages').prepend(message.body);
+                    $(message.body).prependTo("#messages").hide().slideDown();
                 })
             });
         });
