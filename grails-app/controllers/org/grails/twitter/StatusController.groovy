@@ -1,7 +1,9 @@
 package org.grails.twitter
 
 import grails.plugin.springsecurity.annotation.Secured
+import java.security.Principal
 import org.grails.twitter.auth.Person
+import org.springframework.messaging.handler.annotation.MessageMapping
 
 @Secured('isAuthenticated()')
 class StatusController {
@@ -27,11 +29,8 @@ class StatusController {
          otherUsers: otherUsers]
     }
 
-    def updateStatus(String message) {
-        statusService.updateStatus message
-
-        def messages = timelineService.timelineForUser
-        def content = twitter.renderMessages messages: messages
-        render content
+    @MessageMapping('/updateStatus')
+    protected String updateStatus(String message, Principal author) {
+        statusService.updateStatus message, author.principal.username
     }
 }

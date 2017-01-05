@@ -40,10 +40,9 @@
         <div class="column mainboard">
             <h1><g:message code="status.greeting" args="${displayName}" /></h1>
             <div class="updateStatusForm">
-                <g:formRemote url="[action: 'updateStatus']" update="messages" name="updateStatusForm"
-                              onSuccess="document.getElementById('message').value=''">
+                <g:form name="updateStatusForm">
                     <g:textField name="message" value="" placeholder="${g.message(code: 'status.placeholder')}" />
-                </g:formRemote>
+                </g:form>
             </div>
             <div id="messages">
                 <twitter:renderMessages messages="${statusMessages}"/>
@@ -54,13 +53,28 @@
     <asset:javascript src="spring-websocket" />
     <script type="text/javascript">
         $(function() {
-            var socket = new SockJS("${createLink(uri: '/stomp')}");
+            var socket = new SockJS("${createLink(uri: "/stomp")}");
             var client = Stomp.over(socket);
 
+            function sendStatusUpdate(message) {
+                if (message) {
+                    client.send("/app/updateStatus", {}, message);
+                }
+            }
+            
+            function receiveStatusUpdate(message) {
+                $(message.body).prependTo("#messages").hide().slideDown();
+            }
+
+            $("#updateStatusForm").submit(function() {
+                var $message = $("#message");
+                sendStatusUpdate($.trim($message.val()));
+                $message.val("");
+                return false;
+            });
+
             client.connect({}, function() {
-                client.subscribe('/user/queue/timeline', function(message) {
-                    $(message.body).prependTo("#messages").hide().slideDown();
-                })
+                client.subscribe("/user/queue/timeline", receiveStatusUpdate);
             });
         });
     </script>

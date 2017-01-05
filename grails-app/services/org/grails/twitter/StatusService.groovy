@@ -28,18 +28,21 @@ class StatusService {
         }
     }
 
-    void updateStatus(String message) {
-        def status = new Status(message: message)
-        status.author = twitterSecurityService.loadCurrentUser()
+    String updateStatus(String message, String userName) {
+        def author = Person.findByUserName(userName)
+        def status = new Status(message: message, author: author)
         status.save()
-        timelineService.clearTimelineCacheForUser(status.author.userName)
 
-        def renderedStatus = groovyPageRenderer.render template: '/status/statusMessage',
-                model: [statusMessage: status]
+        timelineService.clearTimelineCacheForUser(userName)
 
-        getFollowersOf(status.author.userName).each { follower ->
-            brokerMessagingTemplate.convertAndSendToUser follower, '/queue/timeline', renderedStatus
+        def html = groovyPageRenderer.render template: '/status/statusMessage', model: [statusMessage: status]
+
+        def sendTo = getFollowersOf(userName) + userName
+        sendTo.each { user ->
+            brokerMessagingTemplate.convertAndSendToUser user, '/queue/timeline', html
         }
+
+        html
     }
 
     void unfollow(String userName) {
