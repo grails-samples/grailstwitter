@@ -4,9 +4,9 @@ import geb.Page
 
 class UserPage extends Page {
 
-    static url = '/users'
+    static url = '/person/index'
 
     static at = {
-        $('title').text() == 'Twitter Users'
+        $('div#list-person')
     }
 }
