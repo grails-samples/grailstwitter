@@ -48,8 +48,8 @@ class LoginFunctionalSpec extends GebSpec{
         at LoginPage
 
         when:
-        j_username = 'jeff'
-        j_password = 'password'
+        username = 'jeff'
+        password = 'password'
         loginButton.click()
 
         then:
