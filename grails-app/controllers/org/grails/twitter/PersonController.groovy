@@ -2,6 +2,9 @@ package org.grails.twitter
 
 import org.grails.twitter.auth.Person
 
+import grails.plugin.springsecurity.annotation.Secured
+
+@Secured('isAuthenticated()')
 class PersonController {
 
     def statusService

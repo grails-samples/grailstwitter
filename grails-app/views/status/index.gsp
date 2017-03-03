@@ -2,28 +2,81 @@
 <head>
     <meta name="layout" content="main"/>
     <title>What Are You Doing?</title>
-    <g:javascript library="jquery" plugin="jquery" />
 </head>
 <body>
-    <div class="nav" role="navigation">
-        <ul>
-            <li><a class="home" href="${createLink(uri: '/status')}"><g:message code="default.home.label"/></a></li>
-            <li><g:link controller="person">Users</g:link></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-    </div>
+    <g:set var="displayName"><twitter:renderCurrentUserName /></g:set>
+
+    <g:render template="/navbar" />
+
     <div class="pageBody">
-        <h1>Hello <twitter:renderCurrentUserName/>. What Are You Doing?</h1>
-        <div class="updatStatusForm">
-            <g:formRemote url="[action: 'updateStatus']" update="messages" name="updateStatusForm"
-                      onSuccess="document.getElementById('message').value='';">
-                <g:textArea name="message" value=""/><br/>
-                <g:submitButton name="Update Status" id="update_status_button"/>
-            </g:formRemote>
+        <div class="column sideboard">
+            <div id="profile" class="panel">
+                <div>
+                    <gravatar:image email="${person.email ?: person.displayName}" title="${person.displayName}"
+                                    defaultGravatarUrl="retro" />
+                    <h2>${displayName}</h2>
+                </div>
+                <div id="userStats">
+                    <dl>
+                        <dt><g:message code="status.updateCount.label" /></dt><dd>${totalStatusCount}</dd>
+                        <dt><g:message code="status.followingCount.label" /></dt><dd>${following.size()}</dd>
+                        <dt><g:message code="status.followersCount.label" /></dt><dd>${followers.size()}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div id="following" class="panel">
+                <h2><g:message code="status.followingList.label" /></h2>
+                <g:render template="/status/peopleList" model="[people: following]" />
+            </div>
+            <div id="followers" class="panel">
+                <h2><g:message code="status.followersList.label" /></h2>
+                <g:render template="/status/peopleList" model="[people: followers]" />
+            </div>
+            <div id="otherUsers" class="panel">
+                <h2><g:message code="status.otherUsersList.label" /></h2>
+                <g:render template="/status/peopleList" model="[people: otherUsers]" />
+            </div>
         </div>
-        <div id="messages">
-            <twitter:renderMessages messages="${statusMessages}"/>
+        <div class="column mainboard">
+            <h1><g:message code="status.greeting" args="${displayName}" /></h1>
+            <div class="updateStatusForm">
+                <g:form name="updateStatusForm">
+                    <g:textField name="message" value="" placeholder="${g.message(code: 'status.placeholder')}" />
+                </g:form>
+            </div>
+            <div id="messages">
+                <twitter:renderMessages messages="${statusMessages}"/>
+            </div>
         </div>
     </div>
+
+    <asset:javascript src="spring-websocket" />
+    <script type="text/javascript">
+        $(function() {
+            var socket = new SockJS("${createLink(uri: "/stomp")}");
+            var client = Stomp.over(socket);
+
+            function sendStatusUpdate(message) {
+                if (message) {
+                    client.send("/app/updateStatus", {}, message);
+                }
+            }
+            
+            function receiveStatusUpdate(message) {
+                $(message.body).prependTo("#messages").hide().slideDown();
+            }
+
+            $("#updateStatusForm").submit(function() {
+                var $message = $("#message");
+                sendStatusUpdate($.trim($message.val()));
+                $message.val("");
+                return false;
+            });
+
+            client.connect({}, function() {
+                client.subscribe("/user/queue/timeline", receiveStatusUpdate);
+            });
+        });
+    </script>
 </body>
 </html>

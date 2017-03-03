@@ -10,6 +10,10 @@ import grails.test.mixin.integration.Integration
 @Integration
 class LoginFunctionalSpec extends GebSpec{
 
+    def setup() {
+        go '/logout'
+    }
+
     void 'test expected redirects'() {
         when:
         go '/'
@@ -46,7 +50,7 @@ class LoginFunctionalSpec extends GebSpec{
         when:
         username = 'jeff'
         password = 'password'
-        logginButton.click()
+        loginButton.click()
 
         then:
         at StatusPage

@@ -49,7 +49,7 @@
 			<div class='login_message'>${flash.message}</div>
 			</g:if>
 			<div class='fheader'>Please Login..</div>
-			<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
+			<form action='/login/authenticate' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 				<p>
 					<label for='username'>Login ID</label>
 					<input type='text' class='text_' name='username' id='username' />
@@ -63,7 +63,7 @@
 				</p>
 			</form>
 			<p>
-			    (Valid user names are graeme, jeff and lari. Password is password.)
+			    (Valid user names are graeme, jeff, matthew, and lari. Password is password.)
 			</p>
 		</div>
 	</div>

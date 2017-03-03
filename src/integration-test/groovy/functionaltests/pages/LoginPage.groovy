@@ -7,10 +7,10 @@ class LoginPage extends Page{
     static url = '/login'
 
     static at = {
-        $('title').text() == 'Twitter Login'
+        loginButton.value() == 'Login'
     }
 
     static content = {
-        logginButton { $('input', type: 'submit') }
+        loginButton { $('input', type: 'submit') }
     }
 }

@@ -2,27 +2,47 @@ package org.grails.twitter
 
 import org.grails.twitter.auth.Person
 
+import grails.transaction.Transactional
+
+@Transactional
 class StatusService {
 
+    def brokerMessagingTemplate
+
+    def groovyPageRenderer
     def twitterSecurityService
     def timelineService
-    
-    void clearTimelineCacheForUser(newMessageUserName) {
+
+    def getFollowersOf(String userName) {
+        Person.where {
+            followed.userName == userName
+        }.property('userName').list()
+    }
+
+    void clearTimelineCacheForUser(String newMessageUserName) {
         log.debug "Message received. New status message posted by user <${newMessageUserName}>."
-        def following = Person.where {
-            followed.userName == newMessageUserName
-        }.property('username').list()
+        def following = getFollowersOf(newMessageUserName)
 
         following.each { uname ->
             timelineService.clearTimelineCacheForUser(uname)
         }
     }
 
-    void updateStatus(String message) {
-        def status = new Status(message: message)
-        status.author = twitterSecurityService.currentUser
+    String updateStatus(String message, String userName) {
+        def author = Person.findByUserName(userName)
+        def status = new Status(message: message, author: author)
         status.save()
-        timelineService.clearTimelineCacheForUser(status.author.userName)
+
+        timelineService.clearTimelineCacheForUser(userName)
+
+        def html = groovyPageRenderer.render template: '/status/statusMessage', model: [statusMessage: status]
+
+        def sendTo = getFollowersOf(userName) + userName
+        sendTo.each { user ->
+            brokerMessagingTemplate.convertAndSendToUser user, '/queue/timeline', html
+        }
+
+        html
     }
 
     void unfollow(String userName) {
